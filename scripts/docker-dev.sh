@@ -5,4 +5,4 @@ docker stop go-ssh && docker rm go-ssh || echo "go-ssh container not found"
 docker run --name go-ssh \
     -v `pwd`/config.toml:/root/config.toml \
     -p 8080:8080 \
-    prakasa1904/go-ssh-web-client:alpha
+    wuchihsu/go-ssh-web-client
