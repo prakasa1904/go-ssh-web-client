@@ -1,6 +1,8 @@
-import { Terminal } from 'xterm';
-import { AttachAddon } from 'xterm-addon-attach';
-import { FitAddon } from 'xterm-addon-fit';
+import { Terminal } from '@xterm/xterm';
+import { AttachAddon } from '@xterm/addon-attach';
+import { FitAddon } from '@xterm/addon-fit';
+
+import '@xterm/xterm/css/xterm.css';
 
 const terminal = new Terminal();
 const fitAddon = new FitAddon();
