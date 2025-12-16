@@ -4,7 +4,7 @@ A simple SSH web client using Go, WebSocket and Xterm.js.
 
 ## Getting Started
 
-After cloning the project, copy [config.toml.sample](config.toml.sample) to config.toml. Modify the host, port, user and password attributes to match the target SSH server in [config.toml.sample](config.toml.sample), then save the file config.toml.
+After cloning the project, copy [config.toml.sample](config.toml.sample) to `config.toml`. Modify the host, port, user and password attributes to match the target SSH server in `config.toml`.
 
 There are two ways to install and run the project, using build script and using Docker.
 
