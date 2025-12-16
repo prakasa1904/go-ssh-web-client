@@ -10,7 +10,8 @@ terminal.loadAddon(fitAddon);
 terminal.open(document.getElementById('terminal'));
 fitAddon.fit();
 
-const webSocket = new WebSocket('ws://' + window.location.host + '/web-socket/ssh');
+const webSocketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+const webSocket = new WebSocket(webSocketProtocol + window.location.host + '/web-socket/ssh');
 
 const sendSize = () => {
   const windowSize = {high: terminal.rows, width: terminal.cols};
