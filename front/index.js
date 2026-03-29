@@ -31,9 +31,17 @@ const resizeScreen = () => {
 webSocket.onopen = sendSize;
 
 webSocket.addEventListener('message', (event) => {
-  if (typeof event.data === 'string' && event.data.includes('logout')) {
-    alert('Logout detected. Closing connection.');
-    webSocket.close();
+  try {
+    const message = JSON.parse(event.data);
+    if (message.type === 'info') {
+      terminal.write(`\r\n${message.data}`);
+    } else if (message.type === 'error') {
+      terminal.write(`\r\nError: ${message.data}`);
+    } else {
+      terminal.write(`\r\nUnknown message type: ${message.type}`);
+    }
+  } catch (error) {
+    // pass
   }
 });
 
@@ -42,7 +50,7 @@ webSocket.addEventListener('error', (event) => {
 });
 
 webSocket.addEventListener('close', () => {
-  terminal.write('\r\nConnection closed by server');
+  terminal.write('\r\nConnection closed, please refresh the page to reconnect.');
 });
 
 window.addEventListener('resize', resizeScreen, false);

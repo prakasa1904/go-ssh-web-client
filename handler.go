@@ -49,6 +49,11 @@ type sshClient struct {
 	closeSig chan struct{}
 }
 
+type sshMessage struct {
+	Type string `json:"type"`
+	Data string `json:"data"`
+}
+
 func (c *sshClient) getWindowSize() (wdSize *windowSize, err error) {
 	c.conn.SetReadDeadline(time.Now().Add(messageWait))
 	msgType, msg, err := c.conn.ReadMessage()
@@ -206,6 +211,10 @@ func (c *sshClient) bridgeWSAndSSH() {
 	}
 
 	logInfo("started a login shell on the remote host")
+	c.conn.WriteJSON(sshMessage{
+		Type: "info",
+		Data: "SSH connection established. You can start typing commands.",
+	})
 
 	// TODO: Send data to websocket if SSH connection closed!
 	defer logInfo("closed a login shell on the remote host")
@@ -220,6 +229,7 @@ func (c *sshClient) bridgeWSAndSSH() {
 		if err := c.wsWrite(); err != nil {
 			// TODO: Send data to websocket if SSH connection closed!
 			logError("bridgeWSAndSSH: wsWrite:", err)
+			c.conn.Close()
 		}
 	}()
 
