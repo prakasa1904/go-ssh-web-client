@@ -11,20 +11,37 @@ terminal.open(document.getElementById('terminal'));
 fitAddon.fit();
 
 const webSocketProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-const webSocket = new WebSocket(webSocketProtocol + window.location.host + '/web-socket/ssh');
+const webSocket = new WebSocket(
+  `${webSocketProtocol + window.location.host}/web-socket/ssh`,
+);
 
 const sendSize = () => {
-  const windowSize = {high: terminal.rows, width: terminal.cols};
-  const blob = new Blob([JSON.stringify(windowSize)], {type : 'application/json'});
+  const windowSize = { high: terminal.rows, width: terminal.cols };
+  const blob = new Blob([JSON.stringify(windowSize)], {
+    type: 'application/json',
+  });
   webSocket.send(blob);
-}
-
-webSocket.onopen = sendSize;
+};
 
 const resizeScreen = () => {
   fitAddon.fit();
   sendSize();
-}
+};
+
+webSocket.onopen = sendSize;
+
+webSocket.addEventListener('message', (event) => {
+  console.log('Received message:', event.data);
+});
+
+webSocket.addEventListener('error', (event) => {
+  terminal.write(`\r\nWebSocket error: ${event.message}`);
+});
+
+webSocket.addEventListener('close', () => {
+  terminal.write('\r\nConnection closed by server');
+});
+
 window.addEventListener('resize', resizeScreen, false);
 
 const attachAddon = new AttachAddon(webSocket);
