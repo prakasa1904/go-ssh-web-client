@@ -30,7 +30,7 @@ const resizeScreen = () => {
 
 webSocket.onopen = sendSize;
 
-webSocket.addEventListener('message', (event) => {
+webSocket.onmessage = (event) => {
   try {
     const message = JSON.parse(event.data);
     if (message.type === 'info') {
@@ -43,7 +43,7 @@ webSocket.addEventListener('message', (event) => {
   } catch (error) {
     // pass
   }
-});
+};
 
 webSocket.addEventListener('error', (event) => {
   terminal.write(`\r\nWebSocket error: ${event.message}`);

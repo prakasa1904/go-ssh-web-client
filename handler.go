@@ -211,12 +211,7 @@ func (c *sshClient) bridgeWSAndSSH() {
 	}
 
 	logInfo("started a login shell on the remote host")
-	c.conn.WriteJSON(sshMessage{
-		Type: "info",
-		Data: "SSH connection established. You can start typing commands.",
-	})
 
-	// TODO: Send data to websocket if SSH connection closed!
 	defer logInfo("closed a login shell on the remote host")
 
 	go func() {
@@ -227,7 +222,6 @@ func (c *sshClient) bridgeWSAndSSH() {
 
 	go func() {
 		if err := c.wsWrite(); err != nil {
-			// TODO: Send data to websocket if SSH connection closed!
 			logError("bridgeWSAndSSH: wsWrite:", err)
 			c.conn.Close()
 		}
