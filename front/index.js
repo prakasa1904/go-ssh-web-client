@@ -31,7 +31,10 @@ const resizeScreen = () => {
 webSocket.onopen = sendSize;
 
 webSocket.addEventListener('message', (event) => {
-  console.log('Received message:', event.data);
+  if (typeof event.data === 'string' && event.data.includes('logout')) {
+    alert('Logout detected. Closing connection.');
+    webSocket.close();
+  }
 });
 
 webSocket.addEventListener('error', (event) => {
