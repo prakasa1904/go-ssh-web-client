@@ -18,7 +18,7 @@ Prerequisites:
 First, execute script to run frontend dev server:
 
 ```bash
-./scripts/front-dev.sh
+./scripts/frontend-dev.sh
 ```
 
 Then run the backend program:

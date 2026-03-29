@@ -83,5 +83,5 @@ func main() {
 
 	http.Handle("/", http.FileServer(http.Dir("./front/")))
 	http.HandleFunc("/web-socket/ssh", handler.webSocket)
-	log.Fatal(http.ListenAndServe(":"+getPort(), nil))
+	log.Fatal(http.ListenAndServe(":"+getPort(listen), nil))
 }

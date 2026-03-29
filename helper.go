@@ -1,11 +1,14 @@
 package main
 
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
-func getPort() string {
+func getPort(defaultPort uint) string {
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
-		httpPort = "8080"
+		httpPort = fmt.Sprintf("%d", defaultPort)
 	}
 	return httpPort
 }
